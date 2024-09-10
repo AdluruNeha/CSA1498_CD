@@ -1,0 +1,14 @@
+%{
+%}
+%%
+[0-9]+|[0-9]*\.[0-9]+ {printf("\n%s is a number\n",yytext);}
+[a-zA-Z][a-zA-Z0-9]* {printf("\n%s is a word\n",yytext);}
+. ;
+%%
+int yywrap(){}
+int main()
+{
+printf("\nEnter input: \n");
+yylex();
+return 0;
+}
