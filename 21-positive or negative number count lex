@@ -1,0 +1,17 @@
+%{
+int pcount=0;
+int ncount=0;
+%}
+%%
+[-]([0-9]+|[0-9]*\.[0-9]+) {ncount++;}
+[0-9]+|[0-9]*\.[0-9]+ {pcount++;}
+%%
+int yywrap(){}
+int main()
+{
+printf("\nEnter input\n");
+yylex();
+printf("no of positive numbers: %d \n",pcount);
+printf("no of negative numbers: %d \n",ncount);
+return 0;
+}
