@@ -1,0 +1,13 @@
+%{
+%}
+%%
+[a-zA-Z]+ {printf("\nWord\n");}
+[<|>|<=|>=|==|!=] {printf("\nRelational operaton\n");}
+%%
+int yywrap(){}
+int main()
+{
+printf("\nEnter Input\n");
+yylex();
+return 0;
+}
