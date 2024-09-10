@@ -1,0 +1,13 @@
+%{
+%}
+%%
+"neha" {printf("saveetha");}
+. {printf("%c",yytext[0]);}
+%%
+int yywrap(){};
+int main()
+{
+printf("\nEnter \n");
+yylex();
+return 0;
+}
