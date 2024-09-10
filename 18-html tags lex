@@ -1,0 +1,13 @@
+%{
+%}
+%%
+"<"[^>]*> {printf("%s\n",yytext);}
+. ;
+%%
+int yywrap(){}
+int main()
+{
+yyin=fopen("html.txt","r");
+yylex();
+return 0;
+}
