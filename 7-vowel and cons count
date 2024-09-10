@@ -1,0 +1,20 @@
+%{
+int vowel_count=0;
+int cons_count=0;
+%}
+
+%%
+[aeiouAEIOU] {vowel_count++;}
+[a-zA-Z] {cons_count++;}
+
+%%
+int yywrap(void){}
+
+int main()
+{
+printf("\nEnter String containing both vowels and consonants\n");
+yylex();
+printf("No of vowels present in given string : %d \n",vowel_count);
+printf("No of consonants present in given string : %d \n",cons_count);
+return 0;
+}
