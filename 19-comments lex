@@ -1,0 +1,16 @@
+%{
+int count=0;
+%}
+%%
+"//".* {count++;}
+"/*" {count++;}
+. ;
+%%
+int yywrap(){}
+int main()
+{
+printf("Enter input\n");
+yylex();
+printf("no of comments: %d\n",count);
+return 0;
+}
