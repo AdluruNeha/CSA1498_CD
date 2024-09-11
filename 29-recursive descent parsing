@@ -1,0 +1,79 @@
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
+char input[100];  
+int i = 0;     
+
+void E();
+void E_prime();
+void T();
+void T_prime();
+void F();
+
+void match(char expected) {
+    if (input[i] == expected) {
+        i++;  
+    } else {
+        printf("Error: expected '%c' but found '%c'\n", expected, input[i]);
+        exit(1);
+    }
+}
+void E() {
+    printf("Enter <E>\n");
+    T();
+    E_prime();
+    printf("Exit <E>\n");
+}
+void E_prime() {
+    printf("Enter <E'>\n");
+    if (input[i] == '+') {
+        match('+');
+        T();
+        E_prime();
+    }
+    printf("Exit <E'>\n");
+}
+void T() {
+    printf("Enter <T>\n");
+    F();
+    T_prime();
+    printf("Exit <T>\n");
+}
+void T_prime() {
+    printf("Enter <T'>\n");
+    if (input[i] == '*') {
+        match('*');
+        F();
+        T_prime();
+    }
+    printf("Exit <T'>\n");
+}
+
+void F() {
+    printf("Enter <F>\n");
+    if (input[i] == '(') {
+        match('(');
+        E();
+        match(')');
+    } else if (isalnum(input[i])) {
+        match(input[i]);  
+    } else {
+        printf("Error: invalid symbol '%c' in <F>\n", input[i]);
+        exit(1);
+    }
+    printf("Exit <F>\n");
+}
+
+int main() {
+    printf("Enter an arithmetic expression: ");
+    scanf("%s", input);
+    E();
+    if (input[i] == '\0') {
+        printf("Parsing successful!\n");
+    } else {
+        printf("Error: unexpected symbol '%c' at the end of input\n", input[i]);
+    }
+
+    return 0;
+}
