@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h> 
+
+void computeFollow(char *productions[], int num_productions, char nt) {
+    printf("FOLLOW(%c) = { ", nt);
+    if (nt == productions[0][0]) {
+        printf("$ ");
+    }
+    int i;
+    int j;
+    for (i = 0; i < num_productions; i++) {
+        int len = strlen(productions[i]);
+
+        for (j = 3; j < len; j++) { 
+            if (productions[i][j] == nt) {
+                if (j + 1 < len) {
+                    if (!isupper(productions[i][j + 1])) {
+                        printf("%c ", productions[i][j + 1]);
+                    } else {
+                        printf("FIRST(%c) ", productions[i][j + 1]);
+                    }
+                } else {
+                    if (productions[i][0] != nt) {
+                        printf("FOLLOW(%c) ", productions[i][0]);
+                    }
+                }
+            }
+        }
+    }
+
+    printf("}\n");
+}
+
+int main() {
+    char *productions[] = {"E->TA", "A->+TA|e", "T->FB", "B->*FB|e", "F->(E)|i"};
+    int num_productions = sizeof(productions) / sizeof(productions[0]);
+    computeFollow(productions, num_productions, 'E');
+    computeFollow(productions, num_productions, 'A');
+    computeFollow(productions, num_productions, 'T');
+    computeFollow(productions, num_productions, 'B');
+    computeFollow(productions, num_productions, 'F');
+
+    return 0;
+}
