@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h> 
+void computeFirst(char *production) {
+	int i;
+    printf("FIRST(%c) = { ", production[0]); 
+    for(i = 3; i < strlen(production); i++) {
+        if (!isupper(production[i])) {
+            printf("%c ", production[i]);
+            break; 
+        }
+    }
+
+    printf("}\n");
+}
+
+int main() {
+    char productions[3][10] = {"E->aA", "A->bB", "B->c"};
+    int i;
+    for (i = 0; i < 3; i++) {
+        computeFirst(productions[i]);
+    }
+
+    return 0;
+}
