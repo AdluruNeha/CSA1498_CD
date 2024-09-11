@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <string.h>
+
+struct SymbolTableEntry {
+    char name[50];
+    char type[10];
+    int scope;
+};
+
+struct SymbolTableEntry symbolTable[100];
+int count = 0;  
+void addEntry(char *name, char *type, int scope) {
+    strcpy(symbolTable[count].name, name);  
+    strcpy(symbolTable[count].type, type);  
+    symbolTable[count].scope = scope;       
+    count++;                                
+}
+
+int searchEntry(char *name) {
+	int i;
+    for (i = 0; i < count; i++) {
+        if (strcmp(symbolTable[i].name, name) == 0) {
+            return i;  
+        }
+    }
+    return -1; 
+}
+
+void displaySymbolTable() {
+    printf("\nSymbol Table:\n");
+    printf("Name\tType\tScope\n");
+    printf("-------------------------\n");
+    int i;
+    for (i = 0; i < count; i++) {
+        printf("%s\t%s\t%d\n", symbolTable[i].name, symbolTable[i].type, symbolTable[i].scope);
+    }
+}
+
+int main() {
+    addEntry("x", "int", 1);
+    addEntry("y", "float", 1);
+    addEntry("sum", "function", 0);
+    addEntry("z", "int", 2);
+    char searchName[50];
+    printf("Enter the variable/function name to search: ");
+    scanf("%s", searchName);
+
+    int index = searchEntry(searchName);
+    if (index != -1) {
+        printf("%s found in symbol table at index %d.\n", searchName, index);
+    } else {
+        printf("%s not found in symbol table.\n", searchName);
+    }
+    displaySymbolTable();
+
+    return 0;
+}
