@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_CODE 100
+
+typedef struct {
+    char result[5];  // Result (left-hand side of the TAC)
+    char op1[5];     // First operand
+    char op[2];      // Operator (+, -, *, /)
+    char op2[5];     // Second operand
+} TAC;  // Structure for holding a three-address code
+
+// Function to generate assembly-like instructions
+void generateAssembly(TAC code[], int n) {
+    printf("\nGenerated Assembly Code:\n");
+    int i;
+    for (i = 0; i < n; i++) {
+        if (strcmp(code[i].op, "+") == 0) {
+            printf("LOAD R1, %s\n", code[i].op1);   // Load op1 into R1
+            printf("ADD R1, %s\n", code[i].op2);    // Add op2 to R1
+            printf("STORE %s, R1\n", code[i].result); // Store result
+        } else if (strcmp(code[i].op, "-") == 0) {
+            printf("LOAD R1, %s\n", code[i].op1);   // Load op1 into R1
+            printf("SUB R1, %s\n", code[i].op2);    // Subtract op2 from R1
+            printf("STORE %s, R1\n", code[i].result); // Store result
+        } else if (strcmp(code[i].op, "*") == 0) {
+            printf("LOAD R1, %s\n", code[i].op1);   // Load op1 into R1
+            printf("MUL R1, %s\n", code[i].op2);    // Multiply by op2
+            printf("STORE %s, R1\n", code[i].result); // Store result
+        } else if (strcmp(code[i].op, "/") == 0) {
+            printf("LOAD R1, %s\n", code[i].op1);   // Load op1 into R1
+            printf("DIV R1, %s\n", code[i].op2);    // Divide by op2
+            printf("STORE %s, R1\n", code[i].result); // Store result
+        } else {
+            // If there is no operator, it's an assignment
+            printf("LOAD R1, %s\n", code[i].op1);   // Load operand into R1
+            printf("STORE %s, R1\n", code[i].result); // Store result
+        }
+    }
+}
+
+int main() {
+    int n;
+    printf("Enter number of TAC instructions: ");
+    scanf("%d", &n);
+    int i;
+
+    TAC code[MAX_CODE];  // Array of TAC instructions
+
+    printf("Enter TAC in format: result = op1 operator op2\n");
+    for (i = 0; i < n; i++) {
+        printf("Instruction %d: ", i+1);
+        scanf("%s = %s %s %s", code[i].result, code[i].op1, code[i].op, code[i].op2);
+    }
+
+    generateAssembly(code, n);  // Generate assembly-like instructions
+
+    return 0;
+}
