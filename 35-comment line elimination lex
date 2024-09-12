@@ -1,0 +1,15 @@
+%{
+%}
+%%
+"//"[a-zA-Z0-9" "]+ {}
+"/*"[a-zA-Z0-9" "]+"*/" {}
+.|\n fprintf(yyout,"%s",yytext);
+%%
+int yywrap(void) {}
+int main()
+{
+yyin=fopen("samplecode.txt","r");
+yyout=fopen("outfile.txt","w");
+yylex();
+return 0;
+}
