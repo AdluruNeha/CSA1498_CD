@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX 100  // Maximum number of instructions
+
+// Structure to represent a TAC instruction
+typedef struct {
+    char result[5];
+    char op1[5];
+    char op[2];
+    char op2[5];
+} TAC;
+
+// Function to check if two instructions have the same subexpression
+int isCommonSubexpression(TAC inst1, TAC inst2) {
+    return (strcmp(inst1.op1, inst2.op1) == 0 && strcmp(inst1.op, inst2.op) == 0 && strcmp(inst1.op2, inst2.op2) == 0);
+}
+
+// Function to eliminate common subexpressions
+void commonSubexpressionElimination(TAC code[], int n) {
+    int i, j;
+    
+    // Mark instructions to eliminate (1 = eliminate, 0 = keep)
+    int eliminate[MAX] = {0};
+
+    // Detect and eliminate common subexpressions
+    for (i = 0; i < n; i++) {
+        for (j = i + 1; j < n; j++) {
+            if (isCommonSubexpression(code[i], code[j])) {
+                printf("Common subexpression found: %s %s %s\n", code[i].op1, code[i].op, code[i].op2);
+                eliminate[j] = 1;  // Mark this instruction for elimination
+                strcpy(code[j].result, code[i].result);  // Use the result of the first occurrence
+            }
+        }
+    }
+
+    // Print optimized TAC
+    printf("\nOptimized Three Address Code (after eliminating common subexpressions):\n");
+    for (i = 0; i < n; i++) {
+        if (!eliminate[i]) {  // Only print instructions that are not marked for elimination
+            printf("%s = %s %s %s\n", code[i].result, code[i].op1, code[i].op, code[i].op2);
+        }
+    }
+}
+
+int main() {
+    int n, i;
+    
+    printf("Enter number of instructions: ");
+    scanf("%d", &n);
+
+    TAC code[MAX];
+
+    // Input the Three-Address Code instructions
+    printf("Enter the Three Address Code in format: result = op1 operator op2\n");
+    for (i = 0; i < n; i++) {
+        printf("Instruction %d: ", i + 1);
+        scanf("%s = %s %s %s", code[i].result, code[i].op1, code[i].op, code[i].op2);
+    }
+
+    // Perform Common Subexpression Elimination
+    commonSubexpressionElimination(code, n);
+
+    return 0;
+}
